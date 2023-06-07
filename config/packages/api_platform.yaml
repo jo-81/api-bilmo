@@ -1,0 +1,11 @@
+# api/config/packages/api_platform.yaml
+api_platform:
+    title: 'Bilmo'
+    version: '0.0.1'
+    show_webby: false
+
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
