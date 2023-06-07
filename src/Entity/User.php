@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[InheritanceType('TABLE_PER_CLASS')]
+#[InheritanceType('JOINED')]
 #[DiscriminatorColumn(
     name: 'discr',
     type: 'string'
