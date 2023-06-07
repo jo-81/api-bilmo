@@ -1,0 +1,5 @@
+App\Entity\User:
+  user:
+    username: 'admin'
+    email: 'admin@domaine.fr'
+    password: '\$2y\$10\$6ZluqjcAgBWJFW5JfO0bF.J3Il2dx32OkmswngsLJ75WfdbR7w2E.'
