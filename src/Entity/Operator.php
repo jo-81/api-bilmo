@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\OperatorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\OperatorRepository;
 
 #[ORM\Entity(repositoryClass: OperatorRepository::class)]
+#[ApiResource()]
 class Operator extends User
 {
     #[ORM\Id]

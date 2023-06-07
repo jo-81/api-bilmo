@@ -1,0 +1,10 @@
+App\Entity\Operator:
+  operator_1:
+    username: 'operator'
+    email: 'operator@domaine.fr'
+    password: '\$2y\$10\$6ZluqjcAgBWJFW5JfO0bF.J3Il2dx32OkmswngsLJ75WfdbR7w2E.'
+
+  operator_{2..10}:
+    username (unique): '<userName()>'
+    email (unique): '<email()>'
+    password: '\$2y\$10\$6ZluqjcAgBWJFW5JfO0bF.J3Il2dx32OkmswngsLJ75WfdbR7w2E.'

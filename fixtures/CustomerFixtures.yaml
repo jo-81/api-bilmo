@@ -1,0 +1,14 @@
+App\Entity\Customer:
+  customer_1:
+    username: 'customer'
+    email: 'customer@domaine.fr'
+    password: '\$2y\$10\$6ZluqjcAgBWJFW5JfO0bF.J3Il2dx32OkmswngsLJ75WfdbR7w2E.'
+    firstname: 'firstname'
+    lastname: 'lastname'
+
+  customer_{2..20}:
+    username (unique): '<userName()>'
+    email (unique): '<email()>'
+    password: '\$2y\$10\$6ZluqjcAgBWJFW5JfO0bF.J3Il2dx32OkmswngsLJ75WfdbR7w2E.'
+    firstname: '<word()>'
+    lastname: '<word()>'
