@@ -92,6 +92,7 @@
         }
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.17",
         "hautelook/alice-bundle": "^2.12",
         "justinrainbow/json-schema": "^5.2",
         "phpstan/phpstan-symfony": "^1.3",
