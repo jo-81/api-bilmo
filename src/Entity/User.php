@@ -5,14 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use App\Controller\MeController;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[InheritanceType('JOINED')]
@@ -25,15 +24,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     mapping: ['user' => 'User', 'operator' => 'Operator', 'customer' => 'Customer']
 )]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read:user']],
     operations: [
-        new GetCollection(
-            name: 'profile',
-            uriTemplate: '/me',
-            controller: MeController::class,
-            read: false,
-            paginationEnabled: false,
-            security: 'is_granted("IS_AUTHENTICATED_FULLY")',
+        new Get(
+            security: 'is_granted("USER_SHOW", object)',
+            normalizationContext: ['groups' => ['user:read']]
         ),
     ]
 )]
@@ -42,16 +36,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:user'])]
+    #[Groups(['user:read'])]
     protected ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['read:user'])]
+    #[Groups(['user:read'])]
     protected ?string $username = null;
 
     /** @var array<string> */
     #[ORM\Column]
-    #[Groups(['read:user'])]
+    #[Groups(['user:read'])]
     protected array $roles = [];
 
     /**
@@ -61,16 +55,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected ?string $password = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['read:user'])]
+    #[Groups(['user:read'])]
     protected ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['read:user'])]
+    #[Groups(['user:read'])]
     protected ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->roles[] = "ROLE_ADMIN";
     }
 
     public function getId(): ?int
