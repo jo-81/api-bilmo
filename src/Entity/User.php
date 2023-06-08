@@ -5,8 +5,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -21,19 +23,29 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
     typeProperty: 'discr',
     mapping: ['user' => 'User', 'operator' => 'Operator', 'customer' => 'Customer']
 )]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(
+            security: 'is_granted("USER_SHOW", object)',
+            normalizationContext: ['groups' => ['user:read']]
+        ),
+    ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:read'])]
     protected ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['user:read'])]
     protected ?string $username = null;
 
     /** @var array<string> */
     #[ORM\Column]
+    #[Groups(['user:read'])]
     protected array $roles = [];
 
     /**
@@ -43,14 +55,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected ?string $password = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['user:read'])]
     protected ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['user:read'])]
     protected ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->roles[] = "ROLE_ADMIN";
     }
 
     public function getId(): ?int

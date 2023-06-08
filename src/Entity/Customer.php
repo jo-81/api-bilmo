@@ -21,6 +21,12 @@ class Customer extends User
     #[ORM\Column(length: 255)]
     protected ?string $lastname = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->roles[] = "ROLE_CUSTOMER";
+    }
+
     public function getId(): ?int
     {
         return $this->id;
